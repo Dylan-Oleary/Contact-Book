@@ -1,4 +1,4 @@
-package Main;
+package Views;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,17 +8,18 @@ import javafx.stage.Stage;
 
 public class LaunchContactBook extends Application {
 
-
-    public static void main (String[] args){
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FormView.fxml"));
         Scene scene = new Scene(root);
+        primaryStage.setTitle("Contact Book - Create Contact");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
-        primaryStage.setTitle("Contact Book - Create Contact");
         primaryStage.show();
+    }
+
+
+    public static void main (String[] args){
+        launch(args);
     }
 }
