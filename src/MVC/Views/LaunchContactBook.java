@@ -1,4 +1,4 @@
-package Views;
+package MVC.Views;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

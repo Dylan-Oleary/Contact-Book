@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Views.TableViewController">
+   <children>
+      <HBox layoutX="14.0" layoutY="72.0" prefHeight="391.0" prefWidth="629.0">
+         <children>
+            <TableView fx:id="contactTable" prefHeight="391.0" prefWidth="629.0">
+              <columns>
+                <TableColumn fx:id="firstNameTableColumn" prefWidth="95.0" text="First Name" />
+                <TableColumn fx:id="lastNameTableColumn" prefWidth="76.0" text="Last Name" />
+                  <TableColumn fx:id="genderTableColumn" prefWidth="64.0" text="Gender" />
+                  <TableColumn fx:id="birthdayTableColumn" prefWidth="88.0" text="Birthday" />
+                  <TableColumn fx:id="addressTableColumn" prefWidth="85.0" text="Address" />
+                  <TableColumn fx:id="phoneNumberTableColumn" prefWidth="132.0" text="Phone Number" />
+                  <TableColumn fx:id="occupationTableColumn" prefWidth="88.0" text="Occupation" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+      <HBox layoutX="15.0" layoutY="462.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="628.0" spacing="47.0">
+         <children>
+            <TextField fx:id="searchTextField" promptText="Search" />
+            <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="88.0" text="Search" />
+            <Button fx:id="editContactButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="124.0" text="Edit Contact" />
+            <Button fx:id="createNewContactButton" mnemonicParsing="false" onAction="#viewContactsButtonPushed" prefHeight="27.0" prefWidth="162.0" text="Create New Contact" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

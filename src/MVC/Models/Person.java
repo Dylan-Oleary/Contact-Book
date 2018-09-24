@@ -1,7 +1,8 @@
-package Models;
+package MVC.Models;
 
 import javafx.scene.image.Image;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /** This class creates a Person object which we will add to the contact book */
@@ -10,7 +11,7 @@ public class Person {
     private String firstName;
     private String lastName;
     private String gender;
-    private Date birthday;
+    private LocalDate birthday;
     private String address;
     private String phoneNumber;
     private String occupation;
@@ -18,9 +19,10 @@ public class Person {
 
     /** Since the IMAGE and OCCUPATION variables are optional, 2 person constructors are created */
 
-    public Person (String firstName, String lastName,String gender, String address,String phoneNumber){
+    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address, String phoneNumber){
         setFirstName(firstName);
         setLastName(lastName);
+        setBirthday(birthday);
         setGender(gender);
         setAddress(address);
         setPhoneNumber(phoneNumber);
@@ -28,10 +30,11 @@ public class Person {
 
     /** This constructor includes the IMAGE and OCCUPATION instance variables */
 
-    public Person (String firstName, String lastName, String gender, Date birthday, String address,String phoneNumber, String occupation, Image image){
+    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, Image image){
         setFirstName(firstName);
         setLastName(lastName);
         setGender(gender);
+        setBirthday(birthday);
         setAddress(address);
         setPhoneNumber(phoneNumber);
         setOccupation(occupation);
@@ -66,8 +69,12 @@ public class Person {
         }
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
+    }
+
+    public void setBirthday (LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public String getGender(){
@@ -83,10 +90,6 @@ public class Person {
         }else{
             this.gender = "Other";
         }
-    }
-
-    public void setBirthday (Date birthday) {
-        this.birthday = birthday;
     }
 
     public String getAddress() {
