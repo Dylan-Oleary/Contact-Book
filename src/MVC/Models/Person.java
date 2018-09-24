@@ -19,7 +19,7 @@ public class Person {
 
     /** Since the IMAGE and OCCUPATION variables are optional, 2 person constructors are created */
 
-    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address, String phoneNumber){
+    public Person (String firstName, String lastName, String gender, String birthday, String address, String phoneNumber){
         setFirstName(firstName);
         setLastName(lastName);
         setBirthday(birthday);
@@ -30,7 +30,7 @@ public class Person {
 
     /** This constructor includes the IMAGE and OCCUPATION instance variables */
 
-    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, Image image){
+    public Person (String firstName, String lastName, String gender, String birthday, String address,String phoneNumber, String occupation, Image image){
         setFirstName(firstName);
         setLastName(lastName);
         setGender(gender);
@@ -73,8 +73,8 @@ public class Person {
         return birthday;
     }
 
-    public void setBirthday (LocalDate birthday) {
-        this.birthday = birthday;
+    public void setBirthday (String birthday) {
+        this.birthday = LocalDate.parse(birthday);
     }
 
     public String getGender(){
@@ -118,7 +118,7 @@ public class Person {
 
     public void setPhoneNumber(String phoneNumber){
         if(!phoneNumber.isEmpty()){
-            if(phoneNumber.contains("-")){
+            if(phoneNumber.substring(3,4).equals("-") && phoneNumber.substring(7,8).equals("-")){
                 this.phoneNumber = phoneNumber;
             }else{
                 this.phoneNumber = phoneNumber.substring(0,3) + "-" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6);
@@ -126,6 +126,35 @@ public class Person {
         }else{
             throw new IllegalArgumentException("Phone number cannot be blank");
         }
+    }
+
+    public boolean isValidPhoneNumber(){
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        int x = 1;
+
+        for(int i = 0; i < alphabet.length(); i++){
+
+            if(i == alphabet.length() - 1){
+                String check = alphabet.substring(i);
+
+                if(phoneNumber.contains(check)){
+                    return false;
+                }
+            }
+
+            String check = alphabet.substring(i,x);
+
+            if(phoneNumber.contains(check)){
+                return false;
+            }
+
+            x++;
+        }
+
+        if(phoneNumber.length() > 10){
+            return false;
+        }
+        return true;
     }
 
     public void setOccupation(String occupation) {
@@ -138,5 +167,10 @@ public class Person {
 
     public void setImage(Image image){
         this.image = image;
+    }
+
+    @Override
+    public String toString(){
+        return "Hey " + firstName + " you are a cool person";
     }
 }

@@ -1,9 +1,5 @@
 package MVC.Views;
 
-
-
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,11 +15,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class FormViewController implements Initializable {
@@ -80,24 +74,37 @@ public class FormViewController implements Initializable {
         window.show();
     }
 
-    /**
-    public void chooseImageButtonPushed(ActionEvent event) throws Exception{
-        FileChooser fileChooser = new FileChooser();
+    public void chooseImageButtonPushed(ActionEvent event){
+        FileChooser fc = new javafx.stage.FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
 
-        FileChooser.ExtensionFilter jpg = new FileChooser.ExtensionFilter("jpg");
-        FileChooser.ExtensionFilter JPG = new FileChooser.ExtensionFilter(("JPG"));
-        FileChooser.ExtensionFilter png = new FileChooser.ExtensionFilter(("png"));
-        FileChooser.ExtensionFilter PNG = new FileChooser.ExtensionFilter(("PNG"));
+        File file = fc.showOpenDialog(null);
 
-        fileChooser.getExtensionFilters().addAll(jpg,JPG,png,PNG);
-
-        File file = fileChooser.showOpenDialog(null);
-
-        BufferedImage buffImage = ImageIO.read(file);
-        Image image = SwingFXUtils.toFXImage(buffImage, null);
+        String location = (file.getAbsoluteFile().toURI().toString());
+        Image image = new Image(location);
         photoImageView.setImage(image);
     }
-     */
+
+    /** Clears the fields and sets them to blank, as well as setting the image back to the default icon */
+
+    public void clearFieldsButtonPushed(ActionEvent event){
+        firstNameTextField.setText("");
+        lastNameTextField.setText("");
+        addressTextField.setText("");
+        phoneNumberTextFieldAreaCode.setText("");
+        phoneNumberTextFieldTwo.setText("");
+        phoneNumberTextFieldThree.setText("");
+        occupationTextField.setText("");
+
+        // Sets image back to default contact icon
+
+        Image contactIcon = new Image("file:./src/images/contact-icon.png");
+        photoImageView.setImage(contactIcon);
+
+        // Sets date picker back to current date
+
+        birthdayDatePicker.setValue(LocalDate.now());
+    }
 
     /**
      * Initializes the controller class.
@@ -109,5 +116,7 @@ public class FormViewController implements Initializable {
 
         Image contactIcon = new Image("file:./src/images/contact-icon.png");
         photoImageView.setImage(contactIcon);
+
+        birthdayDatePicker.setValue(LocalDate.now());
     }
 }
