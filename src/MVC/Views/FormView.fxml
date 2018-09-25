@@ -121,7 +121,7 @@
       </VBox>
       <HBox layoutY="443.0" prefHeight="82.0" prefWidth="657.0" spacing="80.0">
          <children>
-            <Button fx:id="saveContactButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="145.0" text="Save Contact">
+            <Button fx:id="saveContactButton" mnemonicParsing="false" onAction="#saveContactButtonPushed" prefHeight="27.0" prefWidth="145.0" text="Save Contact">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

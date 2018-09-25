@@ -17,20 +17,10 @@ public class Person {
     private String occupation;
     private Image image;
 
-    /** Since the IMAGE and OCCUPATION variables are optional, 2 person constructors are created */
 
-    public Person (String firstName, String lastName, String gender, String birthday, String address, String phoneNumber){
-        setFirstName(firstName);
-        setLastName(lastName);
-        setBirthday(birthday);
-        setGender(gender);
-        setAddress(address);
-        setPhoneNumber(phoneNumber);
-    }
+    /** This constructor includes the IMAGE variable */
 
-    /** This constructor includes the IMAGE and OCCUPATION instance variables */
-
-    public Person (String firstName, String lastName, String gender, String birthday, String address,String phoneNumber, String occupation, Image image){
+    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, Image image){
         setFirstName(firstName);
         setLastName(lastName);
         setGender(gender);
@@ -39,6 +29,16 @@ public class Person {
         setPhoneNumber(phoneNumber);
         setOccupation(occupation);
         setImage(image);
+    }
+
+    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation){
+        setFirstName(firstName);
+        setLastName(lastName);
+        setGender(gender);
+        setBirthday(birthday);
+        setAddress(address);
+        setPhoneNumber(phoneNumber);
+        setOccupation(occupation);
     }
 
     public String getFirstName() {
@@ -73,8 +73,8 @@ public class Person {
         return birthday;
     }
 
-    public void setBirthday (String birthday) {
-        this.birthday = LocalDate.parse(birthday);
+    public void setBirthday (LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public String getGender(){
@@ -104,10 +104,6 @@ public class Person {
         }else{
             throw new IllegalArgumentException("Address cannot be empty");
         }
-    }
-
-    public String getWorkplace() {
-        return occupation;
     }
 
     public String getPhoneNumber(){
@@ -159,6 +155,10 @@ public class Person {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    public String getOccupation() {
+        return occupation;
     }
 
     public Image getImage(){

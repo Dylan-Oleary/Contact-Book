@@ -10,7 +10,7 @@ public class LaunchContactBook extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FormView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("TableView.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Contact Book - Create Contact");
         primaryStage.setScene(scene);
