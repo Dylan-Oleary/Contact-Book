@@ -1,0 +1,24 @@
+.root
+{
+    -fx-background-image: url(/images/cross-scratches.png) ; /* Thanks to Andrey Ovcharov at transparenttextures.com */
+    -fx-background-color: #4299d4;
+}
+
+
+.button
+{
+    -fx-text-fill: black;
+}
+
+#formGridPane
+{
+    -fx-font-family: "Lucida Grande";
+    -fx-font-size: 15px;
+
+}
+
+#formVerticalBox
+{
+    -fx-background-color: white;
+    -fx-background-image: url(/images/cross-scratches.png) ; /* Thanks to Andrey Ovcharov at transparenttextures.com */
+}

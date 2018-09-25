@@ -69,6 +69,7 @@ public class TableViewController implements Initializable {
     public void viewContactsButtonPushed(ActionEvent event) throws Exception{
         Parent createNewContactParent= FXMLLoader.load(getClass().getResource("FormView.fxml"));
         Scene createNewContactScene = new Scene(createNewContactParent);
+        createNewContactScene.getStylesheets().add("style/layout.css");
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 
@@ -106,8 +107,6 @@ public class TableViewController implements Initializable {
             System.err.println(e);
         }
 
-
-
         firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("firstName"));
         lastNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
         genderTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("gender"));
@@ -118,8 +117,5 @@ public class TableViewController implements Initializable {
 
 
         contactTable.setItems(data);
-
-
-
     }
 }

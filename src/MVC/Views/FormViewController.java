@@ -66,7 +66,7 @@ public class FormViewController implements Initializable {
     @FXML
     private Button clearFieldsButton;
 
-    public void saveContactButtonPushed(ActionEvent event) throws SQLException {
+    public void saveContactButtonPushed(ActionEvent event) throws SQLException{
 
         errorCheck();
 
@@ -85,17 +85,28 @@ public class FormViewController implements Initializable {
             db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
                     birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumber, occupationTextField.getText());
 
-            Alert successAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
             successAlert.setHeaderText("Contact Added!");
-            successAlert.setContentText("Contact has been added successfully!\n Select 'View Contacts' to view the contact list.");
+            successAlert.setContentText("Contact has been added successfully!\nClick");
+
+            successAlert.getButtonTypes().clear();
+            ButtonType viewContacts = new ButtonType("View Contacts");
+            successAlert.getButtonTypes().add(viewContacts);
 
             successAlert.showAndWait();
+
+            try{
+                viewContactsButtonPushed(event);
+            }catch(Exception e){
+
+            }
         }
     }
 
     public void viewContactsButtonPushed(ActionEvent event) throws Exception{
         Parent contactTableParent=FXMLLoader.load(getClass().getResource("TableView.fxml"));
         Scene contactTableScene = new Scene(contactTableParent);
+        contactTableScene.getStylesheets().add("style/layout.css");
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 
