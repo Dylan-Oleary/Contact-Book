@@ -12,7 +12,7 @@ public class LaunchContactBook extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("TableView.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Contact Book - Create Contact");
+        primaryStage.setTitle("Contact Book - View Contacts");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

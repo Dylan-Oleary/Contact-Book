@@ -114,11 +114,11 @@ public class Person {
 
     public void setPhoneNumber(String phoneNumber){
         if(!phoneNumber.isEmpty()){
-            if(phoneNumber.substring(3,4).equals("-") && phoneNumber.substring(7,8).equals("-")){
-                this.phoneNumber = phoneNumber;
-            }else{
-                this.phoneNumber = phoneNumber.substring(0,3) + "-" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6);
-            }
+                if(phoneNumber.substring(3,4).equals("-") && phoneNumber.substring(7,8).equals("-")){
+                    this.phoneNumber = phoneNumber;
+                }else{
+                    this.phoneNumber = phoneNumber.substring(0,3) + "-" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6);
+                }
         }else{
             throw new IllegalArgumentException("Phone number cannot be blank");
         }

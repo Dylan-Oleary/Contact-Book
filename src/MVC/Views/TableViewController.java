@@ -1,15 +1,22 @@
 package MVC.Views;
 
+import MVC.Models.DBConnect;
 import MVC.Models.Person;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -19,9 +26,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 public class TableViewController implements Initializable {
+    private static String user = "root";
+    private static String password = "root";
+    private ObservableList<Person> data = FXCollections.observableArrayList();
 
     @FXML
-    private TableView<?> contactTable;
+    private TableView<Person> contactTable;
 
     @FXML
     private TableColumn<Person, String> firstNameTableColumn;
@@ -33,7 +43,7 @@ public class TableViewController implements Initializable {
     private TableColumn<Person, String> genderTableColumn;
 
     @FXML
-    private TableColumn<?, ?> birthdayTableColumn;
+    private TableColumn<Person, LocalDate> birthdayTableColumn;
 
     @FXML
     private TableColumn<Person, String> addressTableColumn;
@@ -66,11 +76,50 @@ public class TableViewController implements Initializable {
         window.show();
     }
 
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try{
+            // Connect to the database
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Contacts?useSSL=false",
+                    user, password);
+
+            statement = conn.createStatement();
+
+            resultSet = statement.executeQuery("SELECT * FROM contactList");
+
+            while(resultSet.next()){
+                this.data.add(new Person(resultSet.getString(2), resultSet.getString(3),resultSet.getString(4),
+                        resultSet.getDate(5).toLocalDate(),resultSet.getString(6),resultSet.getString(7),resultSet.getString(8)));
+            }
+
+        }
+        catch (SQLException e)
+        {
+            System.err.println(e);
+        }
+
+
+
+        firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("firstName"));
+        lastNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
+        genderTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("gender"));
+        birthdayTableColumn.setCellValueFactory(new PropertyValueFactory<Person, LocalDate>("birthday"));
+        addressTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("address"));
+        phoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("phoneNumber"));
+        occupationTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("occupation"));
+
+
+        contactTable.setItems(data);
+
+
+
     }
 }

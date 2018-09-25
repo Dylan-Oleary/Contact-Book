@@ -1,5 +1,6 @@
 package MVC.Views;
 
+import MVC.Models.DBConnect;
 import MVC.Models.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -69,6 +67,9 @@ public class FormViewController implements Initializable {
     private Button clearFieldsButton;
 
     public void saveContactButtonPushed(ActionEvent event) throws SQLException {
+
+        errorCheck();
+
         //Since there are 3 phone number fields, we must create the phone number before sending it to the constructor
 
         String phoneNumber = phoneNumberTextFieldAreaCode.getText() + phoneNumberTextFieldTwo.getText() + phoneNumberTextFieldThree.getText();
@@ -76,45 +77,19 @@ public class FormViewController implements Initializable {
         Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
                 birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumber, occupationTextField.getText());
 
-        // Instantiate the SQL variables
+        DBConnect db = new DBConnect();
 
-        Connection conn = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try{
-            // Connect to the database
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Contacts?useSSL=false",
-                    user, password);
-
-            // create a Prepared Statement object
-            statement = conn.prepareStatement("INSERT INTO contactList (FirstName, LastName, Gender, Birthday, Address, PhoneNumber, Occupation) " +
-                    "VALUE (?,?,?,?,?,?,?)");
-
-            //Set SQL inout values to reflect the Person object values
-
-            statement.setString(1, p.getFirstName());
-            statement.setString(2,p.getLastName());
-            statement.setString(3,p.getGender());
-            statement.setString(4,p.getBirthday().toString());
-            statement.setString(5,p.getAddress());
-            statement.setString(6,p.getPhoneNumber());
-            statement.setString(7,p.getOccupation());
-
-            // Execute the Statement
-            statement.execute();
-        }
-        catch (SQLException e)
+        if(!firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty() && !genderChoiceBox.getValue().isEmpty() &&
+                !addressTextField.getText().isEmpty() && !phoneNumber.isEmpty() && !occupationTextField.getText().isEmpty())
         {
-            System.err.println(e);
-        }
-        finally {
-            if (conn != null)
-                conn.close();
-            if (statement != null)
-                statement.close();
-            if (resultSet != null)
-                resultSet.close();
+            db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
+                    birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumber, occupationTextField.getText());
+
+            Alert successAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            successAlert.setHeaderText("Contact Added!");
+            successAlert.setContentText("Contact has been added successfully!\n Select 'View Contacts' to view the contact list.");
+
+            successAlert.showAndWait();
         }
     }
 
@@ -139,7 +114,53 @@ public class FormViewController implements Initializable {
         photoImageView.setImage(image);
     }
 
-    /** Clears the fields and sets them to blank, as well as setting the image back to the default icon */
+    public void errorCheck(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        alert.setTitle("Error alert");
+        alert.setHeaderText("Failed to add contact");
+
+        String errorMessage = "";
+
+        if(firstNameTextField.getText().isEmpty()){
+            errorMessage += "First name is required. \n";
+        }
+
+        if(lastNameTextField.getText().isEmpty()){
+            errorMessage += "Last name is required. \n";
+        }
+
+        if(genderChoiceBox.getSelectionModel().isEmpty()){
+            errorMessage += "Please specify your gender. \n";
+        }
+
+        if(birthdayDatePicker.getValue().isAfter(LocalDate.now())){
+            errorMessage += "Birthday cannot be after today's date. \n";
+        }
+
+        if(addressTextField.getText().isEmpty()){
+            errorMessage += "Address cannot be empty. \n";
+        }
+
+        if(phoneNumberTextFieldAreaCode.getText().isEmpty() && phoneNumberTextFieldTwo.getText().isEmpty() && phoneNumberTextFieldThree.getText().isEmpty()){
+            errorMessage += "Please enter a phone number. \n";
+        }
+
+        if(occupationTextField.getText().isEmpty()){
+            errorMessage += "Please enter an occupation. \n";
+        }
+
+        alert.setContentText(errorMessage);
+
+        if(!errorMessage.isEmpty()){
+            alert.showAndWait();
+        }
+    }
+
+
+    /**
+     * Clears the fields and sets them to blank, as well as setting the image back to the default icon
+     */
 
     public void clearFieldsButtonPushed(ActionEvent event){
         firstNameTextField.setText("");
