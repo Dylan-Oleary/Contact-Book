@@ -41,6 +41,10 @@ public class Person {
         setOccupation(occupation);
     }
 
+    public Person(String phoneNumber){
+        setPhoneNumber(phoneNumber);
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -124,34 +128,7 @@ public class Person {
         }
     }
 
-    public boolean isValidPhoneNumber(){
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-        int x = 1;
 
-        for(int i = 0; i < alphabet.length(); i++){
-
-            if(i == alphabet.length() - 1){
-                String check = alphabet.substring(i);
-
-                if(phoneNumber.contains(check)){
-                    return false;
-                }
-            }
-
-            String check = alphabet.substring(i,x);
-
-            if(phoneNumber.contains(check)){
-                return false;
-            }
-
-            x++;
-        }
-
-        if(phoneNumber.length() > 10){
-            return false;
-        }
-        return true;
-    }
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;

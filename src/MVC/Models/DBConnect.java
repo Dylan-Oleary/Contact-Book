@@ -1,6 +1,5 @@
 package MVC.Models;
 
-
 import java.sql.*;
 import java.time.LocalDate;
 

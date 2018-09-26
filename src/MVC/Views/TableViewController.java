@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -53,6 +54,9 @@ public class TableViewController implements Initializable {
 
     @FXML
     private TableColumn<Person, String> occupationTableColumn;
+
+    @FXML
+    private TableColumn<Person, Image> imageTableColumn;
 
     @FXML
     private TextField searchTextField;
@@ -98,7 +102,8 @@ public class TableViewController implements Initializable {
 
             while(resultSet.next()){
                 this.data.add(new Person(resultSet.getString(2), resultSet.getString(3),resultSet.getString(4),
-                        resultSet.getDate(5).toLocalDate(),resultSet.getString(6),resultSet.getString(7),resultSet.getString(8)));
+                        resultSet.getDate(5).toLocalDate(),resultSet.getString(6),resultSet.getString(7),
+                        resultSet.getString(8)));
             }
 
         }
@@ -114,6 +119,7 @@ public class TableViewController implements Initializable {
         addressTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("address"));
         phoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("phoneNumber"));
         occupationTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("occupation"));
+        imageTableColumn.setCellValueFactory(new PropertyValueFactory<Person, Image>("image"));
 
 
         contactTable.setItems(data);
