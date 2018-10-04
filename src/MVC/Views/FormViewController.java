@@ -45,13 +45,7 @@ public class FormViewController implements Initializable {
     private TextField addressTextField;
 
     @FXML
-    private TextField phoneNumberTextFieldAreaCode;
-
-    @FXML
-    private TextField phoneNumberTextFieldTwo;
-
-    @FXML
-    private TextField phoneNumberTextFieldThree;
+    private TextField phoneNumberTextField;
 
     @FXML
     private TextField occupationTextField;
@@ -70,24 +64,20 @@ public class FormViewController implements Initializable {
 
     public void saveContactButtonPushed(ActionEvent event) throws SQLException{
 
-        //Since there are 3 phone number fields, we must create the phone number before sending it to the constructor
-
-        String phoneNumber = phoneNumberTextFieldAreaCode.getText() + phoneNumberTextFieldTwo.getText() + phoneNumberTextFieldThree.getText();
-
         errorCheck();
 
         if(update == true){
 
             Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
-                    birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumber, occupationTextField.getText());
+                    birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText());
 
             DBConnect db = new DBConnect();
 
             if(!firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty() && !genderChoiceBox.getValue().isEmpty() &&
-                    !addressTextField.getText().isEmpty() && !phoneNumber.isEmpty() && !occupationTextField.getText().isEmpty())
+                    !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty())
             {
                 db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
-                        birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumber, occupationTextField.getText());
+                        birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText());
 
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setHeaderText("Contact Added!");
@@ -160,14 +150,12 @@ public class FormViewController implements Initializable {
             errorMessage += "Address cannot be empty. \n";
         }
 
-        if(phoneNumberTextFieldAreaCode.getText().isEmpty() && phoneNumberTextFieldTwo.getText().isEmpty() && phoneNumberTextFieldThree.getText().isEmpty()){
+        if(phoneNumberTextField.getText().isEmpty()){
             errorMessage += "Please enter a phone number. \n";
         }
 
 
-        String phoneNumber = phoneNumberTextFieldAreaCode.getText() + phoneNumberTextFieldTwo.getText() + phoneNumberTextFieldThree.getText();
-
-        if(phoneNumber.length() > 10){
+        if(phoneNumberTextField.getText().length() > 10){
             errorMessage += "Phone numbers can't be greater than 10 numbers.\n";
         }
 
@@ -179,17 +167,18 @@ public class FormViewController implements Initializable {
 
         for(int i = 0; i < alphabet.length(); i++){
 
+            //If statement for when our counter gets to the end of the alphabet. We can't use SUBSTRING (i,x)
             if(i == alphabet.length() - 1){
                 String check = alphabet.substring(i);
 
-                if(phoneNumber.contains(check)){
+                if(phoneNumberTextField.getText().contains(check)){
                     errorMessage += "Only numbers are valid in phone number field.\n";
                 }
             }
 
             String check = alphabet.substring(i,x);
 
-            if(phoneNumber.contains(check)){
+            if(phoneNumberTextField.getText().contains(check)){
                 errorMessage += "Only numbers are valid in phone number field.\n";
             }
             x++;
@@ -221,9 +210,7 @@ public class FormViewController implements Initializable {
         firstNameTextField.setText("");
         lastNameTextField.setText("");
         addressTextField.setText("");
-        phoneNumberTextFieldAreaCode.setText("");
-        phoneNumberTextFieldTwo.setText("");
-        phoneNumberTextFieldThree.setText("");
+        phoneNumberTextField.setText("");
         occupationTextField.setText("");
 
         // Sets image back to default contact icon

@@ -57,33 +57,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor></TextField>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                     <children>
-                        <TextField fx:id="phoneNumberTextFieldAreaCode" promptText="XXX">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></TextField>
-                        <Label text="-">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="phoneNumberTextFieldTwo" promptText="XXX">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></TextField>
-                        <Label text="-">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <TextField fx:id="phoneNumberTextFieldThree" promptText="XXXX">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></TextField>
-                     </children>
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
+                     <children>
+                        <TextField fx:id="phoneNumberTextField" prefHeight="27.0" prefWidth="203.0" />
+                     </children>
                   </HBox>
                   <TextField fx:id="occupationTextField" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <cursor>
