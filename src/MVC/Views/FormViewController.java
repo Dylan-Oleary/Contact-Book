@@ -49,6 +49,9 @@ public class FormViewController implements Initializable {
     private TextField addressTextField;
 
     @FXML
+    private ChoiceBox<String> addressChoiceBox;
+
+    @FXML
     private TextField phoneNumberTextField;
 
     @FXML
@@ -74,7 +77,7 @@ public class FormViewController implements Initializable {
 
 
             Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
-                    birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
+                    birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
 
             DBConnect db = new DBConnect();
 
@@ -235,6 +238,8 @@ public class FormViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         genderChoiceBox.getItems().addAll("Male", "Female", "Other");
+
+        addressChoiceBox.getItems().addAll( "Ave.", "Rd.", "St.","Way","Dr.", "Grv.", "Ln.", "Gdns.", "Pl.");
 
         Image contactIcon = new Image("file:./src/images/contact-icon.png");
         photoImageView.setImage(contactIcon);
