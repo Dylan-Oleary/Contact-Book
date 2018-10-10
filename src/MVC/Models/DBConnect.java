@@ -8,7 +8,7 @@ public class DBConnect {
     private static String user = "root";
     private static String password = "root";
 
-    public void addContactToDatabase(String firstName, String lastName, String gender, LocalDate birthday, String address, String phoneNumber, String occupation, File imageFile) throws SQLException{
+    public void addContactToDatabase(String firstName, String lastName, String gender, LocalDate birthday, String address, String phoneNumber, String occupation, String imageFile) throws SQLException{
         // Instantiate the SQL variables
 
         Connection conn = null;
@@ -32,7 +32,7 @@ public class DBConnect {
             statement.setString(5, address);
             statement.setString(6, phoneNumber);
             statement.setString(7, occupation);
-            statement.setString(8, imageFile.getName());
+            statement.setString(8, imageFile);
 
             // Execute the Statement
             statement.execute();

@@ -17,8 +17,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -84,7 +82,7 @@ public class FormViewController implements Initializable {
                     !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty())
             {
                 db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
-                        birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
+                        birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath());
 
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setHeaderText("Contact Added!");

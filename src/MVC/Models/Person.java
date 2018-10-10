@@ -25,8 +25,6 @@ public class Person {
     private File imageFile;
 
 
-    /** This constructor includes the IMAGE variable */
-
     public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation){
         setFirstName(firstName);
         setLastName(lastName);
@@ -47,7 +45,7 @@ public class Person {
         setPhoneNumber(phoneNumber);
         setOccupation(occupation);
         setImageFile(imageFile);
-       // copyImageFile();
+        copyImageFile();
     }
 
     public Person(String phoneNumber){
@@ -137,8 +135,6 @@ public class Person {
         }
     }
 
-
-
     public void setOccupation(String occupation) {
         this.occupation = occupation;
     }
@@ -155,26 +151,25 @@ public class Person {
         this.imageFile = imageFile;
     }
 
-    /**
-     *
-     *
+    public void copyImageFile() {
+        //creates path to copy the image into local directory
 
+        try{
+            Path sourcePath = imageFile.toPath();
 
-    public void copyImageFile() throws IOException  {
-        //reates path to copy the image into local directory
+            String uniqueFileName = getUniqueFileName(imageFile.getName());
 
-        Path sourcePath = imageFile.toPath();
+            Path targetPath = Paths.get("./src/images"+ uniqueFileName);
 
-        String uniqueFileName = getUniqueFileName(imageFile.getName());
+            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-        Path targetPath = Paths.get("./src/images"+ uniqueFileName);
+            imageFile = new File(targetPath.toString());
 
-        Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+        }catch (Exception e){
+            System.out.print(e.getMessage());
+        }
 
-        imageFile = new File(targetPath.toString());
     }
-
-     */
 
     /**
      *
@@ -205,7 +200,6 @@ public class Person {
             newName += fileName;
 
         }while (!uniqueFileInDirectory(newName));
-
         return newName;
     }
 
