@@ -85,7 +85,7 @@ public class FormViewController implements Initializable {
                     !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty())
             {
                 db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
-                        birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath());
+                        birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath());
 
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setHeaderText("Contact Added!");
@@ -167,6 +167,10 @@ public class FormViewController implements Initializable {
             errorMessage += "Phone numbers can't be greater than 10 numbers.\n";
         }
 
+        if(phoneNumberTextField.getText().length() < 10){
+            errorMessage += "Phone numbers can't be less than 10 numbers.\n";
+        }
+
 
         // Validate that only numbers are in the phone number field
 
@@ -180,7 +184,7 @@ public class FormViewController implements Initializable {
                 String check = alphabet.substring(i);
 
                 if(phoneNumberTextField.getText().contains(check)){
-                    errorMessage += "Only numbers are valid in phone number field.\n";
+                    errorMessage += "Only numbers are valid in phone number field. Remove any letters or special characters\n";
                 }
             }
 

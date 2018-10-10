@@ -71,7 +71,7 @@
                      </cursor></ChoiceBox>
                   <HBox prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <TextField fx:id="addressTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="208.0">
+                        <TextField fx:id="addressTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="171.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -79,7 +79,7 @@
                               <Insets top="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <ChoiceBox fx:id="addressChoiceBox" prefHeight="27.0" prefWidth="51.0" value="Road">
+                        <ChoiceBox fx:id="addressChoiceBox" prefHeight="27.0" prefWidth="80.0" value="Ave.">
                            <HBox.margin>
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
