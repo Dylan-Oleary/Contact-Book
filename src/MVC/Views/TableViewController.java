@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
@@ -56,7 +57,7 @@ public class TableViewController implements Initializable {
     private TableColumn<Person, String> occupationTableColumn;
 
     @FXML
-    private TableColumn<Person, Image> imageTableColumn;
+    private TableColumn<Person, File> imageTableColumn;
 
     @FXML
     private TextField searchTextField;
@@ -103,7 +104,7 @@ public class TableViewController implements Initializable {
             while(resultSet.next()){
                 this.data.add(new Person(resultSet.getString(2), resultSet.getString(3),resultSet.getString(4),
                         resultSet.getDate(5).toLocalDate(),resultSet.getString(6),resultSet.getString(7),
-                        resultSet.getString(8)));
+                        resultSet.getString(8), new File(resultSet.getString(9))));
             }
 
         }
@@ -119,7 +120,7 @@ public class TableViewController implements Initializable {
         addressTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("address"));
         phoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("phoneNumber"));
         occupationTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("occupation"));
-        imageTableColumn.setCellValueFactory(new PropertyValueFactory<Person, Image>("image"));
+        imageTableColumn.setCellValueFactory(new PropertyValueFactory<Person, File>("imageFile"));
 
 
         contactTable.setItems(data);

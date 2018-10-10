@@ -15,7 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -23,6 +26,9 @@ import java.util.ResourceBundle;
 public class FormViewController implements Initializable {
     private static String user = "root";
     private static String password = "root";
+    private String location;
+    private File imageFile = new File("./src/images/contact-icon.png");
+
     private Alert errorAlert;
     private Boolean update;
 
@@ -62,14 +68,15 @@ public class FormViewController implements Initializable {
     @FXML
     private Button clearFieldsButton;
 
-    public void saveContactButtonPushed(ActionEvent event) throws SQLException{
+     public void saveContactButtonPushed(ActionEvent event) throws SQLException, IOException {
 
         errorCheck();
 
         if(update == true){
 
+
             Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
-                    birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText());
+                    birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
 
             DBConnect db = new DBConnect();
 
@@ -77,7 +84,7 @@ public class FormViewController implements Initializable {
                     !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty())
             {
                 db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
-                        birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText());
+                        birthdayDatePicker.getValue(), addressTextField.getText(), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
 
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setHeaderText("Contact Added!");
@@ -113,9 +120,9 @@ public class FormViewController implements Initializable {
         FileChooser fc = new javafx.stage.FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
 
-        File file = fc.showOpenDialog(null);
+        imageFile = fc.showOpenDialog(null);
 
-        String location = (file.getAbsoluteFile().toURI().toString());
+        location = (imageFile.getAbsoluteFile().toURI().toString());
         Image image = new Image(location);
         photoImageView.setImage(image);
     }

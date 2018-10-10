@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Views.TableViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="869.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Views.TableViewController">
    <children>
-      <HBox layoutX="14.0" layoutY="72.0" prefHeight="391.0" prefWidth="629.0">
+      <HBox layoutX="14.0" layoutY="72.0" prefHeight="391.0" prefWidth="779.0">
          <children>
-            <TableView fx:id="contactTable" prefHeight="391.0" prefWidth="629.0">
+            <TableView fx:id="contactTable" prefHeight="391.0" prefWidth="779.0">
               <columns>
                 <TableColumn fx:id="firstNameTableColumn" prefWidth="95.0" text="First Name" />
                 <TableColumn fx:id="lastNameTableColumn" prefWidth="76.0" text="Last Name" />
@@ -20,7 +20,7 @@
                   <TableColumn fx:id="addressTableColumn" prefWidth="85.0" text="Address" />
                   <TableColumn fx:id="phoneNumberTableColumn" prefWidth="132.0" text="Phone Number" />
                   <TableColumn fx:id="occupationTableColumn" prefWidth="88.0" text="Occupation" />
-                  <TableColumn fx:id="imageTableColumn" prefWidth="75.0" text="Image" />
+                  <TableColumn fx:id="imageTableColumn" prefWidth="150.0" text="Image" />
               </columns>
             </TableView>
          </children>

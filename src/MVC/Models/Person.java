@@ -2,6 +2,13 @@ package MVC.Models;
 
 import javafx.scene.image.Image;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -15,21 +22,10 @@ public class Person {
     private String address;
     private String phoneNumber;
     private String occupation;
-    private Image image;
+    private File imageFile;
 
 
     /** This constructor includes the IMAGE variable */
-
-    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, Image image){
-        setFirstName(firstName);
-        setLastName(lastName);
-        setGender(gender);
-        setBirthday(birthday);
-        setAddress(address);
-        setPhoneNumber(phoneNumber);
-        setOccupation(occupation);
-        setImage(image);
-    }
 
     public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation){
         setFirstName(firstName);
@@ -39,6 +35,19 @@ public class Person {
         setAddress(address);
         setPhoneNumber(phoneNumber);
         setOccupation(occupation);
+        setImageFile(new File("./src/images/contact-icon.png"));
+    }
+
+    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, File imageFile){
+        setFirstName(firstName);
+        setLastName(lastName);
+        setGender(gender);
+        setBirthday(birthday);
+        setAddress(address);
+        setPhoneNumber(phoneNumber);
+        setOccupation(occupation);
+        setImageFile(imageFile);
+       // copyImageFile();
     }
 
     public Person(String phoneNumber){
@@ -138,13 +147,94 @@ public class Person {
         return occupation;
     }
 
-    public Image getImage(){
-        return image;
+    public File getImageFile(){
+        return imageFile;
     }
 
-    public void setImage(Image image){
-        this.image = image;
+    public void setImageFile(File imageFile){
+        this.imageFile = imageFile;
     }
+
+    /**
+     *
+     *
+
+
+    public void copyImageFile() throws IOException  {
+        //reates path to copy the image into local directory
+
+        Path sourcePath = imageFile.toPath();
+
+        String uniqueFileName = getUniqueFileName(imageFile.getName());
+
+        Path targetPath = Paths.get("./src/images"+ uniqueFileName);
+
+        Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+
+        imageFile = new File(targetPath.toString());
+    }
+
+     */
+
+    /**
+     *
+     *
+     * This method will receive a string that represents a file name and return a string with a random, unique set of letters prefixed to it
+     *
+     */
+
+    private String getUniqueFileName(String fileName){
+        SecureRandom rng = new SecureRandom();
+        String newName;
+
+        do{
+
+            newName = "";
+
+            for(int i = 1; i <=32; i++){
+                int nextChar;
+
+                do{
+                    nextChar = rng.nextInt(123);
+
+                }while(!validChatacterValue(nextChar)); //retun false when char is invalid, continues to the first do-loop when true
+
+                newName = String.format("%s%c", newName, nextChar);
+            }
+
+            newName += fileName;
+
+        }while (!uniqueFileInDirectory(newName));
+
+        return newName;
+    }
+
+    public boolean validChatacterValue(int nextChar){
+
+        if (nextChar >= 48 && nextChar <= 57)
+            return true;
+
+        if(nextChar >= 65 && nextChar <= 90)
+            return true;
+
+        if(nextChar >= 97 && nextChar <= 122)
+            return true;
+
+        return false;
+    }
+
+    public boolean uniqueFileInDirectory (String fileName){
+
+        File directory = new File("./src/images");
+
+        File [] dir_contents = directory.listFiles();
+
+        for(File file: dir_contents){
+            if(file.getName().equals(fileName))
+                return false;
+        }
+        return true;
+        }
 
     @Override
     public String toString(){
