@@ -231,7 +231,7 @@ public class FormViewController implements Initializable {
 
          return gender;
     }
-    
+
     public void phoneNumberTextFieldValidation (KeyEvent event){
         if(phoneNumberTextField.getCaretPosition() > 12 || event.getCode().isLetterKey() || event.getCode() == KeyCode.SPACE
            || event.getCode() == KeyCode.MINUS){

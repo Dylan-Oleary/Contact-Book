@@ -1,7 +1,6 @@
 .root
 {
-    -fx-background-image: url(/images/cross-scratches.png) ; /* Thanks to Andrey Ovcharov at transparenttextures.com */
-    -fx-background-color: #4299d4;
+    -fx-background-color: #023654;
 }
 
 
@@ -17,8 +16,24 @@
 
 }
 
-#formVerticalBox
+
+#contentBorder
+{
+    -fx-border-color: #b4dbf1;
+    -fx-border-width: 10px;
+    -fx-background-color: white;
+}
+
+#contentBorder > *
 {
     -fx-background-color: white;
-    -fx-background-image: url(/images/cross-scratches.png) ; /* Thanks to Andrey Ovcharov at transparenttextures.com */
 }
+
+.text-field:hover
+{
+ -fx-border-color: #039ED3;
+ -fx-border-radius: 5px;
+ -fx-border-width: 10x;
+
+}
+
