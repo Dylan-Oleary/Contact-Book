@@ -12,23 +12,27 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.swing.*;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class FormViewController implements Initializable {
-    private static String user = "root";
-    private static String password = "root";
     private String location;
     private File imageFile = new File("./src/images/contact-icon.png");
-
     private Alert errorAlert;
     private Boolean update;
+    private ArrayList<String> numbers = new ArrayList<>();
 
     @FXML
     private ImageView photoImageView;
@@ -58,7 +62,13 @@ public class FormViewController implements Initializable {
     private TextField occupationTextField;
 
     @FXML
-    private ChoiceBox<String> genderChoiceBox;
+    private RadioButton maleRadioButton;
+
+    @FXML
+    private RadioButton femaleRadioButton;
+
+    @FXML
+    private RadioButton otherRadioButton;
 
     @FXML
     private Button saveContactButton;
@@ -75,16 +85,17 @@ public class FormViewController implements Initializable {
 
         if(update == true){
 
+            String gender = getGender();
 
-            Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
+            Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), gender,
                     birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
 
             DBConnect db = new DBConnect();
 
-            if(!firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty() && !genderChoiceBox.getValue().isEmpty() &&
+            if(!firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty() &&
                     !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty())
             {
-                db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), genderChoiceBox.getValue(),
+                db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), gender,
                         birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath());
 
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -100,7 +111,7 @@ public class FormViewController implements Initializable {
                 try{
                     viewContactsButtonPushed(event);
                 }catch (Exception e){
-
+                    System.out.print(e.getMessage());
                 }
             }
         }
@@ -146,10 +157,6 @@ public class FormViewController implements Initializable {
             errorMessage += "Last name is required. \n";
         }
 
-        if(genderChoiceBox.getSelectionModel().isEmpty()){
-            errorMessage += "Please specify your gender. \n";
-        }
-
         if(birthdayDatePicker.getValue().isAfter(LocalDate.now())){
             errorMessage += "Birthday cannot be after today's date. \n";
         }
@@ -162,15 +169,13 @@ public class FormViewController implements Initializable {
             errorMessage += "Please enter a phone number. \n";
         }
 
-
-        if(phoneNumberTextField.getText().length() > 10){
+        if(phoneNumberTextField.getText().length() > 12){
             errorMessage += "Phone numbers can't be greater than 10 numbers.\n";
         }
 
-        if(phoneNumberTextField.getText().length() < 10){
+        if(phoneNumberTextField.getText().length() < 12){
             errorMessage += "Phone numbers can't be less than 10 numbers.\n";
         }
-
 
         // Validate that only numbers are in the phone number field
 
@@ -212,6 +217,36 @@ public class FormViewController implements Initializable {
         return update;
     }
 
+    public String getGender(){
+         String gender = "";
+
+         if(maleRadioButton.isSelected()){
+             gender = "Male";
+         }
+
+         if(femaleRadioButton.isSelected()){
+             gender = "Female";
+         }
+
+         if(otherRadioButton.isSelected()){
+             gender = "Other";
+         }
+
+         return gender;
+    }
+
+    public void phoneNumberFieldFormatter(KeyEvent event) {
+
+         if (phoneNumberTextField.getText().length() == 3) {
+            phoneNumberTextField.setText(phoneNumberTextField.getText() + "-");
+            phoneNumberTextField.positionCaret(4);
+        }
+
+        if (phoneNumberTextField.getText().length() == 7) {
+            phoneNumberTextField.setText(phoneNumberTextField.getText() + "-");
+            phoneNumberTextField.positionCaret(8);
+        }
+    }
 
 
     /**
@@ -241,13 +276,15 @@ public class FormViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        genderChoiceBox.getItems().addAll("Male", "Female", "Other");
-
         addressChoiceBox.getItems().addAll( "Ave.", "Rd.", "St.","Way","Dr.", "Grv.", "Ln.", "Gdns.", "Pl.");
 
         Image contactIcon = new Image("file:./src/images/contact-icon.png");
         photoImageView.setImage(contactIcon);
 
         birthdayDatePicker.setValue(LocalDate.now());
+
+        for(int i = 0; i < 10; i++){
+            numbers.add(Integer.toString(i));
+        }
     }
 }

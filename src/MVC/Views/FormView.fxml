@@ -6,7 +6,9 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -57,7 +59,7 @@
                         <Insets top="10.0" />
                      </GridPane.margin>
                      <children>
-                        <TextField fx:id="phoneNumberTextField" prefHeight="27.0" prefWidth="265.0" />
+                        <TextField fx:id="phoneNumberTextField" onKeyTyped="#phoneNumberFieldFormatter" prefHeight="27.0" prefWidth="265.0" />
                      </children>
                   </HBox>
                   <TextField fx:id="occupationTextField" prefHeight="27.0" prefWidth="245.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
@@ -65,10 +67,6 @@
                         <Cursor fx:constant="HAND" />
                      </cursor></TextField>
                   <Label text="Gender" GridPane.rowIndex="2" />
-                  <ChoiceBox fx:id="genderChoiceBox" prefHeight="27.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></ChoiceBox>
                   <HBox prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
                         <TextField fx:id="addressTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="171.0">
@@ -84,6 +82,17 @@
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </ChoiceBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <RadioButton fx:id="maleRadioButton" mnemonicParsing="false" selected="true" text="Male">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="genderToggleGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="femaleRadioButton" mnemonicParsing="false" text="Female" toggleGroup="$genderToggleGroup" />
+                        <RadioButton fx:id="otherRadioButton" mnemonicParsing="false" text="Other" toggleGroup="$genderToggleGroup" />
                      </children>
                   </HBox>
                </children>
