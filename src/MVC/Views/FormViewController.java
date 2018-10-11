@@ -16,9 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import javax.swing.*;
-import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -234,17 +231,30 @@ public class FormViewController implements Initializable {
 
          return gender;
     }
-
-    public void phoneNumberFieldFormatter(KeyEvent event) {
-
-         if (phoneNumberTextField.getText().length() == 3) {
-            phoneNumberTextField.setText(phoneNumberTextField.getText() + "-");
-            phoneNumberTextField.positionCaret(4);
+    
+    public void phoneNumberTextFieldValidation (KeyEvent event){
+        if(phoneNumberTextField.getCaretPosition() > 12 || event.getCode().isLetterKey() || event.getCode() == KeyCode.SPACE
+           || event.getCode() == KeyCode.MINUS){
+            phoneNumberTextField.deletePreviousChar();
         }
 
-        if (phoneNumberTextField.getText().length() == 7) {
-            phoneNumberTextField.setText(phoneNumberTextField.getText() + "-");
-            phoneNumberTextField.positionCaret(8);
+        if(event.getCode() == KeyCode.BACK_SPACE){
+            if(phoneNumberTextField.getCaretPosition() == 3){
+                phoneNumberTextField.deletePreviousChar();
+            }
+            if(phoneNumberTextField.getCaretPosition() == 7){
+                phoneNumberTextField.deletePreviousChar();
+            }
+        }else{
+            if(event.getCode().isArrowKey()){
+
+            }else if (phoneNumberTextField.getCaretPosition() == 3) {
+                phoneNumberTextField.setText(phoneNumberTextField.getText() + "-");
+                phoneNumberTextField.positionCaret(4);
+            }else if (phoneNumberTextField.getCaretPosition() == 7) {
+                phoneNumberTextField.setText(phoneNumberTextField.getText() + "-");
+                phoneNumberTextField.positionCaret(8);
+            }
         }
     }
 

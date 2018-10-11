@@ -59,7 +59,7 @@
                         <Insets top="10.0" />
                      </GridPane.margin>
                      <children>
-                        <TextField fx:id="phoneNumberTextField" onKeyTyped="#phoneNumberFieldFormatter" prefHeight="27.0" prefWidth="265.0" />
+                        <TextField fx:id="phoneNumberTextField" onKeyReleased="#phoneNumberTextFieldValidation" prefHeight="27.0" prefWidth="265.0" promptText="(XXX)-XXX-XXXX" />
                      </children>
                   </HBox>
                   <TextField fx:id="occupationTextField" prefHeight="27.0" prefWidth="245.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
