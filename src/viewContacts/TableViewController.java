@@ -1,6 +1,7 @@
-package MVC.Views;
+package viewContacts;
 
-import MVC.Models.Person;
+import Models.Person;
+import Models.SceneChanger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -68,15 +69,8 @@ public class TableViewController implements Initializable {
     @FXML
     private Button createNewContactButton;
 
-    public void viewContactsButtonPushed(ActionEvent event) throws Exception{
-        Parent createNewContactParent= FXMLLoader.load(getClass().getResource("FormView.fxml"));
-        Scene createNewContactScene = new Scene(createNewContactParent);
-        createNewContactScene.getStylesheets().add("style/layout.css");
-
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        window.setScene(createNewContactScene);
-        window.show();
+    public void createNewContactButtonPushed(ActionEvent event) throws Exception{
+        SceneChanger.changeScenes(event, "../createContact/FormView.fxml", "Contacts" );
     }
 
     /**

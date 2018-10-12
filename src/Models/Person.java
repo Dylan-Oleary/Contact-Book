@@ -1,16 +1,12 @@
-package MVC.Models;
-
-import javafx.scene.image.Image;
+package Models;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.util.Date;
 
 /** This class creates a Person object which we will add to the contact book */
 

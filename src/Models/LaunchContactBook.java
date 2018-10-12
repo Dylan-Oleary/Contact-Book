@@ -1,4 +1,4 @@
-package MVC.Views;
+package Models;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class LaunchContactBook extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("TableView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../viewContacts/TableView.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("style/layout.css");
         primaryStage.setTitle("Contact Book - View Contacts");

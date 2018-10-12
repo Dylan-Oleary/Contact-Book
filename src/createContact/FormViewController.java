@@ -1,14 +1,11 @@
-package MVC.Views;
+package createContact;
 
-import MVC.Models.DBConnect;
-import MVC.Models.Person;
+import Models.DBConnect;
+import Models.Person;
+import Models.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
@@ -17,7 +14,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -117,14 +113,7 @@ public class FormViewController implements Initializable {
     }
 
     public void viewContactsButtonPushed(ActionEvent event) throws Exception{
-        Parent contactTableParent=FXMLLoader.load(getClass().getResource("TableView.fxml"));
-        Scene contactTableScene = new Scene(contactTableParent);
-        contactTableScene.getStylesheets().add("style/layout.css");
-
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        window.setScene(contactTableScene);
-        window.show();
+        SceneChanger.changeScenes(event, "../viewContacts/TableView.fxml", "Contacts" );
     }
 
     public void chooseImageButtonPushed(ActionEvent event){
