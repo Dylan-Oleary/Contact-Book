@@ -19,6 +19,7 @@ public class Person {
     private String phoneNumber;
     private String occupation;
     private File imageFile;
+    private int personID;
 
 
     public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, File imageFile){
@@ -33,8 +34,23 @@ public class Person {
         copyImageFile();
     }
 
-    public Person(String phoneNumber){
+    /**
+     *
+     *This constructor is used when retrieving the Person object from the database. The Person ID is passed in and this
+     * allows the Person object to have a unique value attached to it when trying to pull it from the database for editing
+     */
+
+    public Person (int personId, String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, File imageFile){
+        setFirstName(firstName);
+        setLastName(lastName);
+        setGender(gender);
+        setBirthday(birthday);
+        setAddress(address);
         setPhoneNumber(phoneNumber);
+        setOccupation(occupation);
+        setImageFile(imageFile);
+        setPersonID(personId);
+        copyImageFile();
     }
 
     public String getFirstName() {
@@ -128,6 +144,14 @@ public class Person {
         return occupation;
     }
 
+    public int getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(int personID) {
+        this.personID = personID;
+    }
+
     public File getImageFile(){
         return imageFile;
     }
@@ -144,7 +168,7 @@ public class Person {
 
             String uniqueFileName = getUniqueFileName(imageFile.getName());
 
-            Path targetPath = Paths.get("./src/images"+ uniqueFileName);
+            Path targetPath = Paths.get("./src/images/profileImages/"+ uniqueFileName);
 
             Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
 

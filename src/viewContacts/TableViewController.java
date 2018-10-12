@@ -3,20 +3,18 @@ package viewContacts;
 import Models.DBConnect;
 import Models.Person;
 import Models.SceneChanger;
+import createContact.FormViewController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
+
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -59,6 +57,9 @@ public class TableViewController implements Initializable {
     private TableColumn<Person, File> imageTableColumn;
 
     @FXML
+    private TableColumn<Person, Integer> personIDColumn;
+
+    @FXML
     private TextField searchTextField;
 
     @FXML
@@ -72,6 +73,18 @@ public class TableViewController implements Initializable {
 
     public void createNewContactButtonPushed(ActionEvent event) throws Exception{
         SceneChanger.changeScenes(event, "../createContact/FormView.fxml", "Contacts" );
+    }
+
+    public void contactSelected(){
+        editContactButton.setDisable(false);
+    }
+
+    public void editContactButtonPushed(ActionEvent event) throws IOException {
+        SceneChanger sceneChanger = new SceneChanger();
+        Person person = this.contactTable.getSelectionModel().getSelectedItem();
+        FormViewController formViewController = new FormViewController();
+
+        sceneChanger.changeScenes(event, "../createContact/FormView.fxml", "Edit Contact", person, formViewController);
     }
 
     /**
@@ -93,7 +106,8 @@ public class TableViewController implements Initializable {
         occupationTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("occupation"));
         imageTableColumn.setCellValueFactory(new PropertyValueFactory<Person, File>("imageFile"));
 
-
         contactTable.setItems(data);
+
+        editContactButton.setDisable(true);
     }
 }

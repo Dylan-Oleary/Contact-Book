@@ -1,8 +1,10 @@
 package createContact;
 
+import Models.ControllerClass;
 import Models.DBConnect;
 import Models.Person;
 import Models.SceneChanger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +16,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -22,12 +27,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class FormViewController implements Initializable {
+public class FormViewController implements Initializable, ControllerClass {
     private String location;
     private File imageFile = new File("./src/images/contact-icon.png");
     private Alert errorAlert;
     private Boolean update;
     private ArrayList<String> numbers = new ArrayList<>();
+    private Person person;
 
     @FXML
     private ImageView photoImageView;
@@ -74,28 +80,56 @@ public class FormViewController implements Initializable {
     @FXML
     private Button clearFieldsButton;
 
-     public void saveContactButtonPushed(ActionEvent event) throws SQLException, IOException {
+    @FXML
+    private Label titleLabel;
+
+    public void saveContactButtonPushed(ActionEvent event) throws SQLException, IOException {
 
         errorCheck();
 
         if(update == true){
 
-            String gender = getGender();
+            if(person == null){
+                String gender = getGender();
 
-            Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), gender,
-                    birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
+                Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), gender,
+                        birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
 
-            DBConnect db = new DBConnect();
+                DBConnect db = new DBConnect();
 
-            if(!firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty() &&
-                    !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty())
-            {
-                db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), gender,
-                        birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath());
+                if(!firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty() &&
+                        !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty()) {
+                    db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), gender,
+                            birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath());
+
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setHeaderText("Contact Added!");
+                    successAlert.setContentText("Contact has been added successfully!\n");
+
+                    successAlert.getButtonTypes().clear();
+                    ButtonType viewContacts = new ButtonType("View Contacts");
+                    successAlert.getButtonTypes().add(viewContacts);
+
+                    successAlert.showAndWait();
+
+                    try {
+                        viewContactsButtonPushed(event);
+                    } catch (Exception e) {
+                        System.out.print(e.getMessage());
+                    }
+                }
+
+            }else if(person != null){
+                String updatedGender = getGender();
+
+                DBConnect editDb = new DBConnect();
+
+                editDb.editContactInDatabase(firstNameTextField.getText(), lastNameTextField.getText(), updatedGender, birthdayDatePicker.getValue(),
+                        (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath(), person.getPersonID());
 
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                successAlert.setHeaderText("Contact Added!");
-                successAlert.setContentText("Contact has been added successfully!\n");
+                successAlert.setHeaderText("Contact Updated!");
+                successAlert.setContentText("Contact has been updated successfully!\n");
 
                 successAlert.getButtonTypes().clear();
                 ButtonType viewContacts = new ButtonType("View Contacts");
@@ -103,11 +137,12 @@ public class FormViewController implements Initializable {
 
                 successAlert.showAndWait();
 
-                try{
+                try {
                     viewContactsButtonPushed(event);
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.print(e.getMessage());
                 }
+
             }
         }
     }
@@ -305,5 +340,45 @@ public class FormViewController implements Initializable {
         for(int i = 0; i < 10; i++){
             numbers.add(Integer.toString(i));
         }
+    }
+
+    @Override
+    public void preloadData(Person person) {
+        this.person = person;
+
+        firstNameTextField.setText(person.getFirstName());
+        lastNameTextField.setText(person.getLastName());
+        birthdayDatePicker.setValue(person.getBirthday());
+        addressTextField.setText(person.getAddress());
+        occupationTextField.setText(person.getOccupation());
+        phoneNumberTextField.setText(person.getPhoneNumber());
+
+        if(person.getGender().equals("Male")){
+            maleRadioButton.setSelected(true);
+        }else if(person.getGender().equals("Female")){
+            femaleRadioButton.setSelected(true);
+        }else{
+            otherRadioButton.setSelected(true);
+        }
+
+        titleLabel.setText("Edit Contact");
+        saveContactButton.setText("Update Contact");
+
+        try{
+            String imgLocation = "./src/images/profileImages/" + person.getImageFile().getName();
+            imageFile = new File(imgLocation);
+            BufferedImage bufferedImage = ImageIO.read(imageFile);
+            Image img = SwingFXUtils.toFXImage(bufferedImage, null);
+            photoImageView.setImage(img);
+        }catch(IOException e){
+            Alert photoAlert = new Alert(Alert.AlertType.ERROR);
+            photoAlert.setTitle("Ouch!");
+            photoAlert.setHeaderText("Profile Photo Could Not Be Found");
+            photoAlert.setContentText("Sorry! We couldn't find your profile photo, choose a new one!");
+
+            photoAlert.show();
+
+        }
+
     }
 }

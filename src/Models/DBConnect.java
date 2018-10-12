@@ -73,7 +73,7 @@ public class DBConnect {
             resultSet = statement.executeQuery();
 
             while(resultSet.next()){
-                data.add(new Person(resultSet.getString(2), resultSet.getString(3),resultSet.getString(4),
+                data.add(new Person(resultSet.getInt(1),resultSet.getString(2), resultSet.getString(3),resultSet.getString(4),
                         resultSet.getDate(5).toLocalDate(),resultSet.getString(6),resultSet.getString(7),
                         resultSet.getString(8), new File(resultSet.getString(9))));
             }
@@ -86,5 +86,46 @@ public class DBConnect {
         return data;
     }
 
+    public void editContactInDatabase(String firstName, String lastName, String gender, LocalDate birthday, String address, String phoneNumber, String occupation, String imageFile, int personID) throws SQLException{
+        Connection conn = null;
+        PreparedStatement statement = null;
 
+        try{
+
+            // Connect to the database
+            conn = DriverManager.getConnection("jdbc:mysql://us-cdbr-iron-east-01.cleardb.net:3306/heroku_ec40e15f6df80a2",
+                    user, password);
+
+            // create a Prepared Statement object
+            String sql = "UPDATE contactlist SET FirstName = ?, LastName = ?, Gender = ?, Birthday = ?, Address = ?, PhoneNumber = ?, Occupation = ?, Image = ? WHERE idcontactList = ?";
+
+            statement = conn.prepareStatement(sql);
+
+
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, gender);
+            statement.setString(4, birthday.toString());
+            statement.setString(5, address);
+            statement.setString(6, phoneNumber);
+            statement.setString(7, occupation);
+            statement.setString(8, imageFile);
+            statement.setInt(9, personID);
+
+            // Execute the Statement
+            statement.executeUpdate();
+            statement.close();
+        }
+        catch (SQLException e)
+        {
+            System.err.println(e);
+        }
+        finally {
+            if (conn != null)
+                conn.close();
+            if (statement != null)
+                statement.close();
+        }
+
+    }
 }
