@@ -1,5 +1,6 @@
 package viewContacts;
 
+import Models.DBConnect;
 import Models.Person;
 import Models.SceneChanger;
 import javafx.collections.FXCollections;
@@ -79,30 +80,9 @@ public class TableViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        Connection conn = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
+        DBConnect db = new DBConnect();
 
-        try{
-            // Connect to the database
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Contacts?useSSL=false",
-                    user, password);
-
-            statement = conn.createStatement();
-
-            resultSet = statement.executeQuery("SELECT * FROM contactList");
-
-            while(resultSet.next()){
-                this.data.add(new Person(resultSet.getString(2), resultSet.getString(3),resultSet.getString(4),
-                        resultSet.getDate(5).toLocalDate(),resultSet.getString(6),resultSet.getString(7),
-                        resultSet.getString(8), new File(resultSet.getString(9))));
-            }
-
-        }
-        catch (SQLException e)
-        {
-            System.err.println(e);
-        }
+        data = db.getContactsFromDatabase();
 
         firstNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person,String>("firstName"));
         lastNameTableColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));

@@ -21,17 +21,6 @@ public class Person {
     private File imageFile;
 
 
-    public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation){
-        setFirstName(firstName);
-        setLastName(lastName);
-        setGender(gender);
-        setBirthday(birthday);
-        setAddress(address);
-        setPhoneNumber(phoneNumber);
-        setOccupation(occupation);
-        setImageFile(new File("./src/images/contact-icon.png"));
-    }
-
     public Person (String firstName, String lastName, String gender, LocalDate birthday, String address,String phoneNumber, String occupation, File imageFile){
         setFirstName(firstName);
         setLastName(lastName);
