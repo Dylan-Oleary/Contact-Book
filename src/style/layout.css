@@ -1,6 +1,6 @@
 .root
 {
-    -fx-background-color: #023654;
+    -fx-background-image: url('../images/outrun-background.jpg');
 }
 
 
@@ -16,6 +16,13 @@
 
 }
 
+#formVerticalBox
+{
+    -fx-border-color: #b4dbf1;
+    -fx-border-width: 0 5 0 0;
+    -fx-border-style: dotted;
+}
+
 
 #contentBorder
 {
@@ -29,6 +36,18 @@
     -fx-background-color: white;
 }
 
+#tableBorder
+{
+    -fx-border-color: #b4dbf1;
+    -fx-border-width: 10px;
+    -fx-background-color: white;
+}
+
+#tableBorder > *
+{
+    -fx-background-color: white;
+}
+
 .text-field:hover
 {
  -fx-border-color: #039ED3;
@@ -36,4 +55,5 @@
  -fx-border-width: 10x;
 
 }
+
 

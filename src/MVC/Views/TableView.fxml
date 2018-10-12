@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVC.Views.TableViewController">
    <children>
-      <HBox layoutX="76.0" layoutY="53.0" prefHeight="402.0" prefWidth="779.0">
+      <Label fx:id="titleLabel" layoutX="304.0" text="Your Contacts" textFill="#e6f3fa">
+         <font>
+            <Font name="Lobster Regular" size="56.0" />
+         </font>
+         <effect>
+            <DropShadow color="#b4dbf1" height="25.0" radius="11.0" />
+         </effect>
+      </Label>
+      <HBox fx:id="tableBorder" layoutX="10.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="901.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <TableView fx:id="contactTable" prefHeight="391.0" prefWidth="779.0">
-              <columns>
-                <TableColumn fx:id="firstNameTableColumn" prefWidth="95.0" resizable="false" text="First Name" />
-                <TableColumn fx:id="lastNameTableColumn" prefWidth="76.0" resizable="false" text="Last Name" />
-                  <TableColumn fx:id="genderTableColumn" prefWidth="64.0" resizable="false" text="Gender" />
-                  <TableColumn fx:id="birthdayTableColumn" prefWidth="88.0" resizable="false" text="Birthday" />
-                  <TableColumn fx:id="addressTableColumn" prefWidth="85.0" resizable="false" text="Address" />
-                  <TableColumn fx:id="phoneNumberTableColumn" prefWidth="104.0" resizable="false" text="Phone Number" />
-                  <TableColumn fx:id="occupationTableColumn" prefWidth="116.0" resizable="false" text="Occupation" />
-                  <TableColumn fx:id="imageTableColumn" prefWidth="150.0" resizable="false" text="Image" />
-              </columns>
-            </TableView>
+            <HBox layoutX="10.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="880.0">
+               <children>
+                  <TableView fx:id="contactTable" prefHeight="371.0" prefWidth="901.0">
+                    <columns>
+                      <TableColumn fx:id="firstNameTableColumn" prefWidth="95.0" resizable="false" text="First Name" />
+                      <TableColumn fx:id="lastNameTableColumn" prefWidth="76.0" resizable="false" text="Last Name" />
+                        <TableColumn fx:id="genderTableColumn" prefWidth="64.0" resizable="false" text="Gender" />
+                        <TableColumn fx:id="birthdayTableColumn" prefWidth="88.0" resizable="false" text="Birthday" />
+                        <TableColumn fx:id="addressTableColumn" prefWidth="85.0" resizable="false" text="Address" />
+                        <TableColumn fx:id="phoneNumberTableColumn" prefWidth="104.0" resizable="false" text="Phone Number" />
+                        <TableColumn fx:id="occupationTableColumn" prefWidth="116.0" resizable="false" text="Occupation" />
+                        <TableColumn fx:id="imageTableColumn" prefWidth="272.0" resizable="false" text="Image" />
+                    </columns>
+                  </TableView>
+               </children>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </HBox>
          </children>
       </HBox>
       <HBox layoutX="76.0" layoutY="466.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="779.0" spacing="47.0">

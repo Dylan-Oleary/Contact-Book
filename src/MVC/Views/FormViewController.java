@@ -10,10 +10,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -139,6 +141,9 @@ public class FormViewController implements Initializable {
     public boolean errorCheck(){
         update = false;
 
+        InnerShadow errorShadow = new InnerShadow(12, Color.rgb(255,0,0));
+        errorShadow.setBlurType(BlurType.ONE_PASS_BOX);
+
         errorAlert = new Alert(Alert.AlertType.ERROR);
 
         errorAlert.setTitle("Error alert");
@@ -148,30 +153,37 @@ public class FormViewController implements Initializable {
 
         if(firstNameTextField.getText().isEmpty()){
             errorMessage += "First name is required. \n";
+            firstNameTextField.setEffect(errorShadow);
         }
 
         if(lastNameTextField.getText().isEmpty()){
             errorMessage += "Last name is required. \n";
+            lastNameTextField.setEffect(errorShadow);
         }
 
         if(birthdayDatePicker.getValue().isAfter(LocalDate.now())){
             errorMessage += "Birthday cannot be after today's date. \n";
+            birthdayDatePicker.setEffect(errorShadow);
         }
 
         if(addressTextField.getText().isEmpty()){
             errorMessage += "Address cannot be empty. \n";
+            addressTextField.setEffect(errorShadow);
         }
 
         if(phoneNumberTextField.getText().isEmpty()){
             errorMessage += "Please enter a phone number. \n";
+            phoneNumberTextField.setEffect(errorShadow);
         }
 
         if(phoneNumberTextField.getText().length() > 12){
             errorMessage += "Phone numbers can't be greater than 10 numbers.\n";
+            phoneNumberTextField.setEffect(errorShadow);
         }
 
         if(phoneNumberTextField.getText().length() < 12){
             errorMessage += "Phone numbers can't be less than 10 numbers.\n";
+            phoneNumberTextField.setEffect(errorShadow);
         }
 
         // Validate that only numbers are in the phone number field
@@ -200,6 +212,7 @@ public class FormViewController implements Initializable {
 
         if(occupationTextField.getText().isEmpty()){
             errorMessage += "Please enter an occupation. \n";
+            occupationTextField.setEffect(errorShadow);
         }
 
         errorAlert.setContentText(errorMessage);
@@ -278,6 +291,13 @@ public class FormViewController implements Initializable {
         // Sets date picker back to current date
 
         birthdayDatePicker.setValue(LocalDate.now());
+
+        firstNameTextField.setEffect(null);
+        lastNameTextField.setEffect(null);
+        birthdayDatePicker.setEffect(null);
+        addressTextField.setEffect(null);
+        phoneNumberTextField.setEffect(null);
+        occupationTextField.setEffect(null);
     }
 
     /**
