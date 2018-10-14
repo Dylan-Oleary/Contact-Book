@@ -11,6 +11,9 @@ public class DBConnect {
     private static String user = "b07210b32e0bec";
     private static String password = "75c900e6";
 
+    /**
+     * This method adds the contact to the database
+     */
     public void addContactToDatabase(String firstName, String lastName, String gender, LocalDate birthday, String address, String phoneNumber, String occupation, String imageFile) throws SQLException{
         // Instantiate the SQL variables
 
@@ -57,6 +60,9 @@ public class DBConnect {
         }
     }
 
+    /**
+     * This method returns all the contacts from the database
+     */
     public ObservableList<Person> getContactsFromDatabase (){
         Connection conn = null;
         PreparedStatement statement = null;
@@ -86,6 +92,9 @@ public class DBConnect {
         return data;
     }
 
+    /**
+     * This method allows us to edit a contact stored in the database
+     */
     public void editContactInDatabase(String firstName, String lastName, String gender, LocalDate birthday, String address, String phoneNumber, String occupation, String imageFile, int personID) throws SQLException{
         Connection conn = null;
         PreparedStatement statement = null;

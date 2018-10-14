@@ -16,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -83,25 +82,39 @@ public class FormViewController implements Initializable, ControllerClass {
     @FXML
     private Label titleLabel;
 
+    /**
+     *This method saves a contact to the contact book. It runs the errorCheck() method. If that method sets the update
+     * instance variable to true, the contact is added to the database. If the contact already exists in the database,
+     * they are edited.
+     */
     public void saveContactButtonPushed(ActionEvent event) throws SQLException, IOException {
 
         errorCheck();
 
+        //errorCheck() has set update == true. This means no validation errors were found
         if(update == true){
 
             if(person == null){
+                //The Person object takes gender as a string. We use getGender() to get the gender as a String variable.
                 String gender = getGender();
 
                 Person p = new Person(firstNameTextField.getText(), lastNameTextField.getText(), gender,
-                        birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
+                        birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()),
+                        phoneNumberTextField.getText(), occupationTextField.getText(), imageFile);
 
                 DBConnect db = new DBConnect();
 
                 if(!firstNameTextField.getText().isEmpty() && !lastNameTextField.getText().isEmpty() &&
-                        !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() && !occupationTextField.getText().isEmpty()) {
-                    db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), gender,
-                            birthdayDatePicker.getValue(), (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath());
+                        !addressTextField.getText().isEmpty() && !phoneNumberTextField.getText().isEmpty() &&
+                        !occupationTextField.getText().isEmpty()) {
 
+                    //The contact is added to the database
+                    db.addContactToDatabase(firstNameTextField.getText(), lastNameTextField.getText(), gender,
+                            birthdayDatePicker.getValue(), (addressTextField.getText() + " " +
+                            addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(),
+                            imageFile.getPath());
+
+                    //This creates the Information Alert to let the user know the addition was successful.
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setHeaderText("Contact Added!");
                     successAlert.setContentText("Contact has been added successfully!\n");
@@ -127,6 +140,7 @@ public class FormViewController implements Initializable, ControllerClass {
                 editDb.editContactInDatabase(firstNameTextField.getText(), lastNameTextField.getText(), updatedGender, birthdayDatePicker.getValue(),
                         (addressTextField.getText() + " " + addressChoiceBox.getValue()), phoneNumberTextField.getText(), occupationTextField.getText(), imageFile.getPath(), person.getPersonID());
 
+                //This creates the Information Alert to let the user know the update was successful.
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setHeaderText("Contact Updated!");
                 successAlert.setContentText("Contact has been updated successfully!\n");
@@ -147,10 +161,18 @@ public class FormViewController implements Initializable, ControllerClass {
         }
     }
 
+    /**
+     *This method calls the SceneChanger utility class and will take us to the TableView scene.
+     */
     public void viewContactsButtonPushed(ActionEvent event) throws Exception{
         SceneChanger.changeScenes(event, "../viewContacts/TableView.fxml", "Contacts" );
     }
 
+    /**
+     *This method allows the user to choose a file from their computer, stores it as an Image variable, ready
+     * to be put into the Person object that is used to create a contact. It also changes the photo that is shown
+     * in the GUI to the photo that the user has chosen.
+     */
     public void chooseImageButtonPushed(ActionEvent event){
         FileChooser fc = new javafx.stage.FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
@@ -162,18 +184,28 @@ public class FormViewController implements Initializable, ControllerClass {
         photoImageView.setImage(image);
     }
 
+    /**
+     *This method builds the error message if the user fails to fill out the form correctly. It also manipulates the
+     * instance variable "update", which when true, allows the contact to be added to the database. If validation
+     * errors are present, "update" is set to false.
+     */
     public boolean errorCheck(){
         update = false;
 
+        //Creates an object that gives a form field a red shadow
         InnerShadow errorShadow = new InnerShadow(12, Color.rgb(255,0,0));
         errorShadow.setBlurType(BlurType.ONE_PASS_BOX);
 
+        //Create Alert object
         errorAlert = new Alert(Alert.AlertType.ERROR);
 
         errorAlert.setTitle("Error alert");
         errorAlert.setHeaderText("Failed to add contact");
 
         String errorMessage = "";
+
+        //If any of these fields are empty or invalid, the error message is updated and the field is given the red
+        //InnerShadow error
 
         if(firstNameTextField.getText().isEmpty()){
             errorMessage += "First name is required. \n";
@@ -239,8 +271,10 @@ public class FormViewController implements Initializable, ControllerClass {
             occupationTextField.setEffect(errorShadow);
         }
 
+        //Set the error alert to show all of the error messages the program has gathered
         errorAlert.setContentText(errorMessage);
 
+        //If there are no errors, update is set to false and the contact will not be able to be added to the database
         if(!errorMessage.isEmpty()){
             errorAlert.showAndWait();
             update = false;
@@ -251,6 +285,11 @@ public class FormViewController implements Initializable, ControllerClass {
         return update;
     }
 
+    /**
+     *This method determines which gender radio button is selected, sets the String variable gender to the value of
+     * the selected button and returns the gender. The gender is passed as a String to the Person object in
+     * saveContactButtonPushed();
+     */
     public String getGender(){
          String gender = "";
 
@@ -269,12 +308,21 @@ public class FormViewController implements Initializable, ControllerClass {
          return gender;
     }
 
+    /**
+     * This method makes it so that the user cannot enter anything other than a valid phone number. It won't allow
+     * letters, more than 10 numbers and automatically inserts the hyphens in a phone number
+     */
     public void phoneNumberTextFieldValidation (KeyEvent event){
+
+        //If any invalid keys are typed or if the caret position is greater than 12, the character is automatically deleted
         if(phoneNumberTextField.getCaretPosition() > 12 || event.getCode().isLetterKey() || event.getCode() == KeyCode.SPACE
            || event.getCode() == KeyCode.MINUS){
             phoneNumberTextField.deletePreviousChar();
         }
 
+        //If backspace is pressed and the number is behind a hyphen, the hyphen and the number are deleted
+        //Else, if the key is an arrow key, we have to move the caret ahead and print out the number. This is to stop
+        // the arrow keys from triggering the addition of another hyphen
         if(event.getCode() == KeyCode.BACK_SPACE){
             if(phoneNumberTextField.getCaretPosition() == 3){
                 phoneNumberTextField.deletePreviousChar();
@@ -299,7 +347,6 @@ public class FormViewController implements Initializable, ControllerClass {
     /**
      * Clears the fields and sets them to blank, as well as setting the image back to the default icon
      */
-
     public void clearFieldsButtonPushed(ActionEvent event){
         firstNameTextField.setText("");
         lastNameTextField.setText("");
@@ -342,10 +389,15 @@ public class FormViewController implements Initializable, ControllerClass {
         }
     }
 
+    /**
+     *This method is used for when we update a contact. The fields are populated by the contacts data that exists within
+     * the database. The title is changed to "Edit Contact" instead of "Create Contact"
+     */
     @Override
     public void preloadData(Person person) {
         this.person = person;
 
+        //Populate the text fields with the Person object variables
         firstNameTextField.setText(person.getFirstName());
         lastNameTextField.setText(person.getLastName());
         birthdayDatePicker.setValue(person.getBirthday());
@@ -353,6 +405,7 @@ public class FormViewController implements Initializable, ControllerClass {
         occupationTextField.setText(person.getOccupation());
         phoneNumberTextField.setText(person.getPhoneNumber());
 
+        //Set the radio button to the gender assigned to the contact
         if(person.getGender().equals("Male")){
             maleRadioButton.setSelected(true);
         }else if(person.getGender().equals("Female")){
@@ -361,9 +414,13 @@ public class FormViewController implements Initializable, ControllerClass {
             otherRadioButton.setSelected(true);
         }
 
+        //Change the title to differentiate the scene from the "create contact" scene
+        //Change "Save Contact" to "Update Contact"
         titleLabel.setText("Edit Contact");
         saveContactButton.setText("Update Contact");
 
+        //Grab the Image File from the Person object and change it to an Image object that can be displayed in
+        // ImageView
         try{
             String imgLocation = "./src/images/profileImages/" + person.getImageFile().getName();
             imageFile = new File(imgLocation);
@@ -377,8 +434,6 @@ public class FormViewController implements Initializable, ControllerClass {
             photoAlert.setContentText("Sorry! We couldn't find your profile photo, choose a new one!");
 
             photoAlert.show();
-
         }
-
     }
 }
